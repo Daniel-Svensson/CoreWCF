@@ -31,7 +31,7 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    msbuildArgs: '/t:Pack /p:PackageVersion=$(Build.BuildNumber)'
+    msbuildArgs: '/t:Build,Pack /p:PackageVersion=$(Build.BuildNumber)'
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
