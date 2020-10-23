@@ -35,7 +35,7 @@ stages:
         displayName: Set Version
 
       - task: SonarCloudPrepare@1
-        condition: eq('${{ variables._buildConfig }}', 'Release')
+        condition: eq(variables._buildConfig, 'Release')
         inputs:
           SonarCloud: 'sonarcloud'
           organization: 'default'
@@ -58,12 +58,12 @@ stages:
           arguments: '--no-restore --configuration $(_buildConfig)'
           
       - task: SonarCloudAnalyze@1
-        condition: eq('${{ variables._buildConfig }}', 'Release')
+        condition: eq(variables._buildConfig, 'Release')
     
       - publish: $(System.DefaultWorkingDirectory)/bin
         artifact: $(_buildConfig)Build
         
       - task: SonarCloudPublish@1
-        condition: eq('${{ variables._buildConfig }}', 'Release')
+        condition: eq(variables._buildConfig, 'Release')
         inputs:
           pollingTimeoutSec: '300'
