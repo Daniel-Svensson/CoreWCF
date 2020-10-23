@@ -34,6 +34,14 @@ stages:
       - script: nbgv cloud
         displayName: Set Version
 
+      - task: SonarCloudPrepare@1
+        inputs:
+          SonarCloud: 'sonarcloud'
+          organization: 'default'
+          scannerMode: 'MSBuild'
+          projectKey: 'CoreWCF'
+          projectName: 'CoreWCF'
+
       - task: DotNetCoreCLI@2
         displayName: Restore
         inputs:
@@ -47,5 +55,12 @@ stages:
           command: 'build'
           projects: ${{ parameters.buildProjects}}
           arguments: '--no-restore --configuration $(_buildConfig)'
+          
+      - task: SonarCloudAnalyze@1
+    
       - publish: $(System.DefaultWorkingDirectory)/bin
         artifact: $(_buildConfig)Build
+        
+      - task: SonarCloudPublish@1
+        inputs:
+          pollingTimeoutSec: '300'
