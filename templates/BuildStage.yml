@@ -35,10 +35,10 @@ stages:
         displayName: Set Version
 
       - task: SonarCloudPrepare@1
-        condition: eq(variables._buildConfig, 'Release')
+        condition: and(eq(variables._buildConfig, 'Release'), ne(variables.sonarcloud_organization,''))
         inputs:
           SonarCloud: 'sonarcloud'
-          organization: 'default'
+          organization: '$(sonarcloud_organization)'
           scannerMode: 'MSBuild'
           projectKey: 'CoreWCF'
           projectName: 'CoreWCF'
@@ -58,12 +58,12 @@ stages:
           arguments: '--no-restore --configuration $(_buildConfig)'
           
       - task: SonarCloudAnalyze@1
-        condition: eq(variables._buildConfig, 'Release')
+        condition: and(eq(variables._buildConfig, 'Release'), ne(variables.sonarcloud_organization,''))
     
       - publish: $(System.DefaultWorkingDirectory)/bin
         artifact: $(_buildConfig)Build
         
       - task: SonarCloudPublish@1
-        condition: eq(variables._buildConfig, 'Release')
+        condition: and(eq(variables._buildConfig, 'Release'), ne(variables.sonarcloud_organization,''))
         inputs:
           pollingTimeoutSec: '300'
