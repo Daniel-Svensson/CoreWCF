@@ -13,7 +13,7 @@ variables:
 stages:
 - template: templates/BuildStage.yml
   parameters:
-    buildProjects: $(_libraryProjects)
+    buildProjects: $(_solution)
 
 - template: templates/TestStage.yml
   parameters:
