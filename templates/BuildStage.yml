@@ -42,6 +42,13 @@ stages:
           scannerMode: 'MSBuild'
           projectKey: 'CoreWCF'
           projectName: 'CoreWCF'
+          extraProperties: |
+            # Additional properties that will be passed to the scanner, 
+            # Put one key=value per line:
+            # Disable rule S1128 Remove  unnecessary 'using'
+            sonar.issue.ignore.multicriteria=e1
+            sonar.issue.ignore.multicriteria.e1.ruleKey=csharpsquid:S1128
+            sonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cs
 
       - task: DotNetCoreCLI@2
         displayName: Restore
